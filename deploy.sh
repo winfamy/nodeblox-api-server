@@ -1,7 +1,27 @@
 #!/usr/bin/env bash
 # Deploy script by Grady Phillips
 
-apt-get update
-apt-get upgrade -y
+echo 'Updating packages.'
+apt-get update >/dev/null
+apt-get upgrade -y >/dev/null
 
-apt-get install node npm git
+echo 'Installing deps.'
+apt-get install nodejs npm git build-essential >/dev/null
+git clone https://github.com/winfamy/nodeblox-api-server.git
+cd nodeblox-api-server/
+
+cp nodeblox-api-server.service /etc/systemd/system/nodeblox-api-server.service
+systemctl enable nodeblox-api-server>/dev/null
+systemctl start nodeblox-api-server>/dev/null
+
+curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh -o install_nvm.sh>/dev/null
+bash install_nvm.sh>/dev/null
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+nvm install 10.0.0 >/dev/null
+nvm use 10.0.0 >/dev/null
+node -v
+
+rm -rf install_nvm.sh?
