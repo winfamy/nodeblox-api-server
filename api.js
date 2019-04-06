@@ -31,7 +31,7 @@ api.all('/webhook/sentry', function(req, res) {
   res.send('lol');
 });
 
-api.listen(8080, function() {});
+api.listen(80, function() {});
 
 function newInventory(roblox_user_id, callback) {
   var types = [8,18,19,41,42,43,44,45,46,47];
